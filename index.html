@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academic Advising Portal</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f3f6fc;
+    color: #26334d;
+}
+
+/* HEADER */
+
+header {
+    background: linear-gradient(120deg, #101d45, #3159ad);
+    color: white;
+    padding: 25px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+header p {
+    margin: 7px 0 0;
+    color: #cbd7f5;
+    font-size: 13px;
+}
+
+.role-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.role-switch label {
+    font-weight: bold;
+}
+
+.role-switch select {
+    padding: 11px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+/* MAIN LAYOUT */
+
+.container {
+    display: flex;
+    min-height: calc(100vh - 100px);
+}
+
+.sidebar {
+    width: 220px;
+    background: white;
+    padding: 25px 20px;
+    border-right: 1px solid #e4e9f2;
+}
+
+.sidebar h3 {
+    font-size: 12px;
+    color: #8994a9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar p {
+    color: #3159ad;
+    background: #eaf0ff;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px;
+    min-width: 0;
+}
+
+/* HEADINGS */
+
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h2 {
+    font-size: 25px;
+    margin: 0 0 8px;
+    color: #172747;
+}
+
+.page-heading p {
+    color: #8994a9;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* CARDS */
+
+.card {
+    background: white;
+    padding: 24px;
+    margin-bottom: 22px;
+    border-radius: 13px;
+    box-shadow: 0 4px 15px rgba(31,52,91,0.06);
+    border: 1px solid #edf0f6;
+}
+
+.card h2 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1d2e50;
+}
+
+/* PROFESSORS */
+
+.professor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 15px;
+}
+
+.professor-card {
+    padding: 18px;
+    background: #f6f8ff;
+    border: 1px solid #e3eaff;
+    border-radius: 10px;
+}
+
+.professor-card h3 {
+    margin: 0;
+    color: #284b91;
+    font-size: 16px;
+}
+
+.empty-message {
+    color: #8994a9;
+    font-size: 14px;
+}
+
+/* FORMS */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #53617b;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0 12px;
+    border: 1px solid #dce2ed;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: #5579d5;
+    box-shadow: 0 0 0 3px rgba(85,121,213,0.12);
+}
+
+/* BUTTONS */
+
+button {
+    background: #3159ad;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #203f85;
+}
+
+/* TABLE */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+th {
+    background: #f1f4fa;
+    color: #53617b;
+    text-align: left;
+    font-size: 13px;
+}
+
+th, td {
+    padding: 15px;
+    border-bottom: 1px solid #e9edf4;
+    font-size: 13px;
+}
+
+td {
+    color: #43516b;
+}
+
+/* ADMIN NOTE */
+
+.admin-note {
+    background: #edf3ff;
+    border-left: 4px solid #3159ad;
+    padding: 13px;
+    border-radius: 6px;
+    color: #405a91;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+/* HIDE ELEMENTS */
+
+.hidden {
+    display: none !important;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #8994a9;
+    font-size: 12px;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 700px) {
+
+    header {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 21px;
+    }
+
+    .container {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px 20px;
+    }
+
+    .sidebar p {
+        display: inline-block;
+        margin: 5px 0;
+    }
+
+    .main-content {
+        padding: 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <div>
+        <h1>Academic Advising Portal</h1>
+        <p>University Student Support System</p>
+    </div>
+
+    <!-- STUDENT AND ADMIN SWITCH -->
+
+    <div class="role-switch">
+
+        <label for="role">Login as:</label>
+
+        <select id="role" onchange="changeRole()">
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+        </select>
+
+    </div>
+
+</header>
+
+
+<!-- STUDENT PAGE -->
+
+<div id="studentPage">
+
+    <div class="container">
+
+        <aside class="sidebar">
+            <h3>Student Portal</h3>
+            <p>Student Dashboard</p>
+        </aside>
+
+        <main class="main-content">
+
+            <div class="page-heading">
+                <h2>Student Dashboard</h2>
+                <p>View professors and manage your appointments.</p>
+            </div>
+
+
+            <!-- PROFESSORS -->
+
+            <div class="card">
+
+                <h2>Available Professors</h2>
+
+                <div id="professors" class="professor-grid"></div>
+
+            </div>
+
+
+            <!-- BOOK APPOINTMENT -->
+
+            <div class="card">
+
+                <h2>Book an Appointment</h2>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="studentName"
+                        placeholder="Enter your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Professor</label>
+                        <select id="advisor"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Appointment Date</label>
+                        <input type="date" id="date">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Appointment Time</label>
+                        <input type="time" id="time">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Purpose of Meeting</label>
+                    <input type="text" id="purpose"
+                    placeholder="Enter purpose of meeting">
+                </div>
+
+                <button id="bookButton" onclick="bookAppointment()">
+                    Book Appointment
+                </button>
+
+            </div>
+
+
+            <!-- APPOINTMENTS -->
+
+            <div class="card">
+
+                <h2>Appointment Records</h2>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Professor</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="appointmentList"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- ADMIN PAGE -->
+
+<div id="adminPage" class="hidden">
+
+    <div class="container">
+
+        <aside class="sidebar">
+            <h3>Administration</h3>
+            <p>Admin Dashboard</p>
+        </aside>
+
+        <main class="main-content">
+
+            <div class="page-heading">
+                <h2>Admin Dashboard</h2>
+                <p>Manage professors in the advising portal.</p>
+            </div>
+
+            <div class="admin-note">
+                Use this dashboard to add professors or update their names.
+            </div>
+
+
+            <!-- ADD PROFESSOR -->
+
+            <div class="card">
+
+                <h2>Add New Professor</h2>
+
+                <div class="form-group">
+                    <label>Professor Name</label>
+                    <input type="text" id="addName"
+                    placeholder="Enter professor name">
+                </div>
+
+                <button onclick="addProfessor()">
+                    + Add Professor
+                </button>
+
+            </div>
+
+
+            <!-- EDIT PROFESSOR -->
+
+            <div class="card">
+
+                <h2>Edit Professor Name</h2>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Select Professor</label>
+                        <select id="editProfessor"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>New Professor Name</label>
+                        <input type="text" id="newName"
+                        placeholder="Enter new professor name">
+                    </div>
+
+                </div>
+
+                <button onclick="editProfessor()">
+                    Update Professor
+                </button>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<footer>
+    Academic Advising Portal | Student Support System
+</footer>
+
+
+<script>
+
+// PROFESSOR ARRAY
+
+let professorNames = [];
+
+
+// APPOINTMENT ARRAY
+
+let appointments = [];
+
+
+// DISPLAY PROFESSORS
+
+function displayProfessors() {
+
+    let output = "";
+
+    if (professorNames.length === 0) {
+
+        output = '<p class="empty-message">No professors have been added yet.</p>';
+
+    } else {
+
+        for (let i = 0; i < professorNames.length; i++) {
+
+            output += `
+                <div class="professor-card">
+                    <h3>${professorNames[i]}</h3>
+                </div>
+            `;
+
+        }
+
+    }
+
+    document.getElementById("professors").innerHTML = output;
+
+    updateAdvisorList();
+
+    updateEditProfessorList();
+
+}
+
+
+// UPDATE STUDENT DROPDOWN
+
+function updateAdvisorList() {
+
+    let output = "";
+
+    if (professorNames.length === 0) {
+
+        output = '<option value="">No professors available</option>';
+
+    } else {
+
+        for (let i = 0; i < professorNames.length; i++) {
+
+            output += `
+                <option value="${professorNames[i]}">
+                    ${professorNames[i]}
+                </option>
+            `;
+
+        }
+
+    }
+
+    document.getElementById("advisor").innerHTML = output;
+
+    document.getElementById("bookButton").disabled =
+        professorNames.length === 0;
+
+    document.getElementById("bookButton").style.opacity =
+        professorNames.length === 0 ? "0.5" : "1";
+
+}
+
+
+// UPDATE ADMIN DROPDOWN
+
+function updateEditProfessorList() {
+
+    let output = "";
+
+    if (professorNames.length === 0) {
+
+        output = '<option value="">No professors available</option>';
+
+    } else {
+
+        for (let i = 0; i < professorNames.length; i++) {
+
+            output += `
+                <option value="${i}">
+                    ${professorNames[i]}
+                </option>
+            `;
+
+        }
+
+    }
+
+    document.getElementById("editProfessor").innerHTML = output;
+
+}
+
+
+// BOOK APPOINTMENT
+
+function bookAppointment() {
+
+    let name = document.getElementById("studentName").value.trim();
+
+    let advisor = document.getElementById("advisor").value;
+
+    let date = document.getElementById("date").value;
+
+    let time = document.getElementById("time").value;
+
+    let purpose = document.getElementById("purpose").value.trim();
+
+
+    if (name === "" || date === "" || time === "") {
+
+        alert("Please fill all required fields");
+
+        return;
+
+    }
+
+    if (professorNames.length === 0) {
+
+        alert("No professors are available");
+
+        return;
+
+    }
+
+
+    let appointment = {
+
+        student: name,
+        professor: advisor,
+        date: date,
+        time: time,
+        purpose: purpose
+
+    };
+
+
+    appointments.push(appointment);
+
+    displayAppointments();
+
+    alert("Appointment booked successfully!");
+
+}
+
+
+// DISPLAY APPOINTMENTS
+
+function displayAppointments() {
+
+    let output = "";
+
+    for (let i = 0; i < appointments.length; i++) {
+
+        output += `
+            <tr>
+                <td>${appointments[i].student}</td>
+                <td>${appointments[i].professor}</td>
+                <td>${appointments[i].date}</td>
+                <td>${appointments[i].time}</td>
+                <td>${appointments[i].purpose}</td>
+            </tr>
+        `;
+
+    }
+
+    document.getElementById("appointmentList").innerHTML = output;
+
+}
+
+
+// SWITCH BETWEEN STUDENT AND ADMIN
+
+function changeRole() {
+
+    let role = document.getElementById("role").value;
+
+    if (role === "admin") {
+
+        document.getElementById("studentPage")
+        .classList.add("hidden");
+
+        document.getElementById("adminPage")
+        .classList.remove("hidden");
+
+    } else {
+
+        document.getElementById("adminPage")
+        .classList.add("hidden");
+
+        document.getElementById("studentPage")
+        .classList.remove("hidden");
+
+    }
+
+}
+
+
+// ADD PROFESSOR
+
+function addProfessor() {
+
+    let name = document.getElementById("addName").value.trim();
+
+    if (name === "") {
+
+        alert("Please enter professor name");
+
+        return;
+
+    }
+
+    professorNames.push(name);
+
+    document.getElementById("addName").value = "";
+
+    displayProfessors();
+
+    alert("Professor added successfully!");
+
+}
+
+
+// EDIT PROFESSOR
+
+function editProfessor() {
+
+    if (professorNames.length === 0) {
+
+        alert("Please add a professor first");
+
+        return;
+
+    }
+
+    let index = document.getElementById("editProfessor").value;
+
+    let name = document.getElementById("newName").value.trim();
+
+    if (name === "") {
+
+        alert("Please enter a new professor name");
+
+        return;
+
+    }
+
+    let oldName = professorNames[index];
+
+    professorNames[index] = name;
+
+
+    // UPDATE EXISTING APPOINTMENTS
+
+    for (let i = 0; i < appointments.length; i++) {
+
+        if (appointments[i].professor === oldName) {
+
+            appointments[i].professor = name;
+
+        }
+
+    }
+
+    document.getElementById("newName").value = "";
+
+    displayProfessors();
+
+    displayAppointments();
+
+    alert("Professor name updated successfully!");
+
+}
+
+
+// INITIAL DISPLAY
+
+displayProfessors();
+
+</script>
+
+</body>
+</html>
